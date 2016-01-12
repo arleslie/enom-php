@@ -1,0 +1,19 @@
+{
+    "name": "arleslie/enom-php",
+    "description": "A PHP library for the Enom API.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew Leslie",
+            "email": "arleslie@arleslie.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "arleslie\\Enom\\": "src/"
+        }
+    }
+}
