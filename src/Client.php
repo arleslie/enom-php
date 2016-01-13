@@ -26,7 +26,7 @@ class Client {
 		]);
 	}
 
-	public function _getApi($api)
+	private function _getApi($api)
 	{
 		if (empty($this->apis[$api])) {
 			$class = 'arleslie\\Enom\\APIs\\' . $api;
