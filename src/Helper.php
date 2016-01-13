@@ -32,8 +32,7 @@ class Helper
 
 		return [
 			'status' => 'success',
-			'code' => $xml->RRPCode,
-			'response' => $xml->RRPText
+			'response' => $xml
 		];
 	}
 }
