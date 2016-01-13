@@ -24,15 +24,9 @@ class Helper
 	{
 		$xml = $response->xml();
 		if (!empty($xml->errors)) {
-			return [
-				'status' => 'error',
-				'errors' => json_decode(json_encode($xml->errors), true)
-			];
+			throw new EnomException($xml->errors->Err1[0], false);
 		}
 
-		return [
-			'status' => 'success',
-			'response' => $xml
-		];
+		return $xml;
 	}
 }
