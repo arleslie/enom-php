@@ -36,5 +36,5 @@ class Client {
 		return $this->apis[$api];
 	}
 
-	public function Domain() { return $this->_getApi('Domain'); }
+	public function DomainRegistration() { return $this->_getApi('DomainRegistration'); }
 }

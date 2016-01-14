@@ -2,7 +2,7 @@
 
 namespace arleslie\Enom\APIs;
 
-class Domain extends \arleslie\Enom\Helper {
+class DomainRegistration extends \arleslie\Enom\Helper {
 
 	/**
 	 * Check the availability of a domain name.
@@ -269,13 +269,48 @@ class Domain extends \arleslie\Enom\Helper {
 	}
 
 	/**
-	 * @todo Refactor all functions below this.
+	 * Purchase a domain name or Premium Domain in real time, or put in a real time order into the pre-registration queue for an EAP domain.
+	 *
+	 * @param string $SLD Second-level domain name
+	 * @param string $TLD Top-level domain name
+	 * @param string $RegistrantFirstName Registrant first name
+	 * @param string $RegistrantLastName Registrant last name
+	 * @param string $RegistrantOrganizationName Registrant organization (Can be blank)
+	 * @param string $RegistrantJobTitle Registrant job title (Required if OragnizationName is set)
+	 * @param string $RegistrantAddress1 Registrant Address
+	 * @param string $RegistrantAddress2 Registrant additional address info (Can be blank)
+	 * @param string $RegistrantCity Registrant city
+	 * @param string $RegistrantStateProvince Registrant state or province
+	 * @param string $RegistrantPostalCode Registrant postal code
+	 * @param string $RegistrantCountry Registrant country (The two character country code is a permitted format)
+	 * @param string $RegistrantEmailAddress Registrant email address
+	 * @param string $RegistrantPhone Registrant phone. Required format is CountryCode.PhoneNumber
+	 * @param string $RegistrantFax Registrant fax number. Required format is CountryCode.PhoneNumber (Required if OragnizationName is set)
+	 * @param int $NumYears
+	 * @param bool $lockRegistar
+	 * @param bool $autoRenew
+	 * @param bool $EmailNotify
+	 * @param string $DomainPassword
+	 * @param bool $QueueOrder
+	 * @param bool $AllowQueuing
+	 * @param string $ContactTypeFirstName
+	 * @param string $ContactTypeLastName
+	 * @param string $ContactTypeOrganizationName
+	 * @param string $ContactTypeJobTitle
+	 * @param string $ContactTypeAddress1
+	 * @param string $ContactTypeAddress2
+	 * @param string $ContactTypeCity
+	 * @param string $ContactTypeStateProvince
+	 * @param string $ContactTypePostalCode
+	 * @param string $ContactTypeCountry
+	 * @param string $ContactTypeEmailAddress
+	 * @param string $ContactTypePhone
+	 * @param string $ContactTypeFax
+	 * @return array
 	 */
-
 	public function Purchase(
 		$SLD,
 		$TLD,
-		$EndUserIP,
 		$RegistrantFirstName,
 		$RegistrantLastName,
 		$RegistrantOrganizationName = '',
@@ -289,19 +324,6 @@ class Domain extends \arleslie\Enom\Helper {
 		$RegistrantEmailAddress,
 		$RegistrantPhone,
 		$RegistrantFax,
-		$ContactTypeFirstName = '',
-		$ContactTypeLastName,
-		$ContactTypeOrganizationName = '',
-		$ContactTypeJobTitle,
-		$ContactTypeAddress1,
-		$ContactTypeAddress2 = '',
-		$ContactTypeCity,
-		$ContactTypeStateProvince = '',
-		$ContactTypePostalCode = '',
-		$ContactTypeCountry,
-		$ContactTypeEmailAddress,
-		$ContactTypePhone,
-		$ContactTypeFax = '',
 		$NumYears = 1,
 		$lockRegistar = true,
 		$autoRenew = false,
@@ -339,90 +361,18 @@ class Domain extends \arleslie\Enom\Helper {
 			'RegistrantPostalCode' => $RegistrantPostalCode,
 			'RegistrantCountry' => $RegistrantCountry,
 			'RegistrantEmailAddress' => $RegistrantEmailAddress,
-			'RegistrantPhone' => $RegistrantPhone,
-			'RegistrantFax' => $RegistrantFax,
-			'ContactTypeFirstName' => $ContactTypeFirstName,
-			'ContactTypeLastName' => $ContactTypeLastName,
-			'ContactTypeOrganizationName' => $ContactTypeOrganizationName,
-			'ContactTypeJobTitle' => $ContactTypeJobTitle,
-			'ContactTypeAddress1' => $ContactTypeAddress1,
-			'ContactTypeAddress2' => $ContactTypeAddress2,
-			'ContactTypeCity' => $ContactTypeCity,
-			'ContactTypeStateProvinceChoice' => $ContactTypeStateProvinceChoice,
-			'ContactTypeStateProvince' => $ContactTypeStateProvince,
-			'ContactTypePostalCode' => $ContactTypePostalCode,
-			'ContactTypeCountry' => $ContactTypeCountry,
-			'ContactTypeEmailAddress' => $ContactTypeEmailAddress,
-			'ContactTypePhone' => $ContactTypePhone,
-			'ContactTypeFax' => $ContactTypeFax
-		]);
-	}
-
-	public function Queue_GetDomains($DisplayMetrics = true, $DisplayDomains = false,$RecordStart = 1,$PagingSize = 25,$SortBy = 'DomainName',$SortOrder = 'Asc',$FilterTLD = false,$FilterQueue = false,$FilterStatus = false,$FilterStatusDesc = false,$DomainNameFilter = false)
-	{
-		return $this->request([
-			'command' => 'Queue_GetDomains',
-			'DisplayMetrics' => $DisplayMetrics ? 'true' : 'false',
-			'DisplayDomains' => $DisplayDomains ? 'true' : 'false',
-			'RecordStart' => $RecordStart,
-			'PagingSize' => $PagingSize,
-			'SortBy' => $SortBy,
-			'SortOrder' => $SortOrder,
-			'FilterTLD' => $FilterTLD,
-			'FilterQueue' => $FilterQueue,
-			'FilterStatus' => $FilterStatus,
-			'FilterStatusDesc' => $FilterStatusDesc,
-			'DomainNameFilter' => $DomainNameFilter
+			'RegistrantPhone' => '+' . trim($RegistrantPhone, '+'),
+			'RegistrantFax' => '+' . trim($RegistrantFax, '+')
 		]);
 	}
 
 	/**
-	 * Retrieve a list of extended attributes for a specific queue.
+	 * Check a trademark claim for a domain name from Trademark Clearinghouse (TMCH).
 	 *
-	 * @param array $queueIds List of Queue IDs (Use Queue_GetInfo to get Ids)
+	 * @param string $SLD Secondary-level domain name
+	 * @param string $TLD Top-level domain name
 	 * @return array
 	 */
-	public function Queue_GetExtAttributes($queueIds = [])
-	{
-		return $this->request([
-			'command' => 'Queue_GetExtAttributes',
-			'QIDList' => implode(',', $queueIds)
-		]);
-	}
-
-	/**
-	 * Retrieve a list of all queues, which can be filtered as appropriate.
-	 *
-	 * @return type
-	 */
-	public function Queue_GetInfo()
-	{
-		return $this->request([
-			'command' => 'Queue_GetInfo'
-		]);
-	}
-
-	/**
-	 * Retrieve a detailed queue domain order.
-	 *
-	 * @param int $OrderID The Order ID. (Use Queue_GetOrders to get Id)
-	 * @return array
-	 */
-	public function Queue_GetOrderDetail($OrderID)
-	{
-		return $this->request([
-			'command' => 'Queue_GetOrderDetail',
-			'OrderID' => $OrderID
-		]);
-	}
-
-	public function Queue_GetOrders()
-	{
-		return $this->request([
-			'command' => 'Queue_GetOrders'
-		]);
-	}
-
 	public function TM_Check($SLD,$TLD)
 	{
 		return $this->request([
@@ -432,6 +382,13 @@ class Domain extends \arleslie\Enom\Helper {
 		]);
 	}
 
+	/**
+	 * Retrieve an itemized list of Trademark Clearinghouse (TMCH) Claims for an SLD using a Lookup Key.
+	 *
+	 * @param string $SLD Second-level domain name
+	 * @param string $LookupKey A unique Lookup Key for a domain. Use the TM_Check command to retrieve the value.
+	 * @return array
+	 */
 	public function TM_GetNotice($SLD,$LookupKey)
 	{
 		return $this->request([
@@ -441,6 +398,14 @@ class Domain extends \arleslie\Enom\Helper {
 		]);
 	}
 
+	/**
+	 * Acknowledge and record the date time for a Trademark Clearinghouse (TMCH) Claims ID for a domain in the shopping cart.
+	 * @param string $SLD Second Level Domain
+	 * @param string $tcnID Trademark Claims notification ID. Use the TM_GetNotice command to retrieve the value
+	 * @param string $tcnExpDate Trademark Claims expiration date (UTC)
+	 * @param string $tcnAcceptDate The date and time when the registrant acknowledged the Trademark Claims Notice
+	 * @return type
+	 */
 	public function TM_UpdateCart($SLD,$tcnID,$tcnExpDate,$tcnAcceptDate)
 	{
 		return $this->request([
@@ -450,5 +415,40 @@ class Domain extends \arleslie\Enom\Helper {
 			'tcnExpDate' => $tcnExpDate,
 			'tcnAcceptDate' => $tcnAcceptDate
 		]);
+	}
+
+	/**
+	 * Configure the extended attributes for the Active domains in a shopping cart.
+	 *
+	 * @param bool $AutoRenew Set to Auto Renew. (Default: true)
+	 * @param bool $RegLock Set Registrar-Lock. (Default: true)
+	 * @param string $PreConfigDNS Which name servers this domain uses. ['default', 'other'?] (Default: 'default')
+	 * @param bool $UseHostRecords Use host records provided in this api call. (Default: false)
+	 * @param array $nameservers ['ns1.enom.com', 'ns2.enom.com']
+	 * @param array $records [ ['type' => 'A', 'address' => '127.0.0.1' ], ['type' => 'AAAA', 'address' => '::1'] ]
+	 * @return array
+	 */
+	public function Preconfigure($AutoRenew = true, $RegLock = true, $PreConfigDNS = 'default', $UseHostRecords = false, $nameservers = [], $records = [])
+	{
+		$params = [
+			'command' => 'Preconfigure',
+			'Load' => 1,
+			'AutoRenew' => $AutoRenew ? 1 : 0,
+			'RegLock' => $RegLock ? 1 : 0,
+			'PreConfigDNS' => $PreConfigDNS,
+			'UseHostRecords' => $UseHostRecords ? 1 : 0,
+			'ExpressCheckout' => 1,
+		];
+
+		for ($i = 0; $i < count($nameservers); $i++) {
+			$params['NS' . $i + 1] = $nameservers[$i];
+		}
+
+		foreach ($records as $i => $record) {
+			$params['RecordType' . $i + 1] = $record['type'];
+			$params['Address' . $i + 1] = $record['address'];
+		}
+
+		return $this->request($params);
 	}
 }

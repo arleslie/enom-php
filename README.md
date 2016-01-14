@@ -13,17 +13,17 @@
     "arleslie/enom-php": "dev-master"
   }
   ```
-  
+
 # Usage
 Note: All functions return raw response from Enom's API. (This will change in the future)
 ```
 $enom = \arleslie\Enom\Client('user-id', 'password', true); // Last argument is for testmode.
 
 // Get Available TLDs
-$enom->Domain()->getTLDList();
+$enom->DomainRegistration()->getTLDList();
 
 // Check Domain Availablity
-$enom->Domain()->check('google', 'com');
+$enom->DomainRegistration()->check('google', 'com');
 ```
 
-Currently all of the domain registration (except for preconfigure) is available.
+Currently all of the domain registration (except for queue_*) is available.
