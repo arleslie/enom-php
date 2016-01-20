@@ -22,7 +22,7 @@ class Helper
 
 	protected function parseResponse(Response $response)
 	{
-		$xml = $response->xml();
+		$xml = simplexml_load_string((string) $response->getBody());
 		if (!empty($xml->errors)) {
 			throw new EnomException($xml->errors->Err1[0], false);
 		}
