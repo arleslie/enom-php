@@ -3,7 +3,7 @@
 namespace arleslie\Enom;
 
 use GuzzleHttp\Client as Guzzle;
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Psr7\Response;
 
 class Helper
 {
@@ -16,7 +16,10 @@ class Helper
 
 	protected function request($args)
 	{
-		$response = $this->client->get('interface.asp?'.http_build_query($args));
+		$response = $this->client->request('GET', 'interface.asp', [
+			'query' => http_build_query($this->client->getConfig('query') + $args)
+		]);
+
 		return $this->parseResponse($response);
 	}
 

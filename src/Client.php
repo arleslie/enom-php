@@ -15,13 +15,11 @@ class Client {
 	public function __construct($username, $password, $testmode)
 	{
 		$this->guzzle = new Guzzle([
-			'base_url' => $testmode ? self::ENOM_API_TEST_URL : self::ENOM_API_URL,
-			'defaults' => [
-				'query' => [
-					'uid' => $username,
-					'pw' => $password,
-					'responsetype' => 'xml'
-				]
+			'base_uri' => $testmode ? self::ENOM_API_TEST_URL : self::ENOM_API_URL,
+			'query' => [
+				'uid' => $username,
+				'pw' => $password,
+				'responsetype' => 'xml'
 			]
 		]);
 	}
